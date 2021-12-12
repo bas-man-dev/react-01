@@ -10,7 +10,12 @@
 <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
 <!-- Load Babel-->
 <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
-
+<style>
+    .incorrect {
+        color: rgb(245, 4, 4);
+        font-size: 3em;
+    }
+</style>
 </head>
 <body>
     <div id="app"></div>
@@ -24,7 +29,8 @@
                     num1: 1,
                     num2: 1,
                     score: 0,
-                    response: ""
+                    response: "",
+                    incorrect: false
                 }
             }
             render() {
@@ -38,7 +44,9 @@
             renderProblem() {
                 return (
                     <div>
-                       <h1>{this.state.num1} + {this.state.num2}</h1>
+                       <h1 className={this.state.incorrect ? "incorrect" : ""}>
+                          {this.state.num1} + {this.state.num2}
+                        </h1>
                        <input onKeyPress={this.inputKeyPress} onChange={this.updateResponse} value={this.state.response} />
                        <div>
                         <span>Score: {this.state.score}</span>
@@ -68,12 +76,14 @@
                             score: state.score +1,
                             num1: Math.ceil(Math.random() * 10),
                             num2: Math.ceil(Math.random() * 10),
-                            response: ""
+                            response: "",
+                            incorrect: false
                         }));
                     } else {
                         // Error
                         this.setState(state => ({
-                            response: ""
+                            response: "",
+                            incorrect: true
                         }));
                     }
                 }
