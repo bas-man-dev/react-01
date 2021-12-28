@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tasks List React</title>
+<!-- Load React -->
+<script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script> 
+<script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+<!-- Load Babel-->
+<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+</head>
+<body>
+    <div id="app"></div>
+    <script type="text/babel">
+        
+        
+        class App extends React.Component {
+            constructor(props) {
+                super(props);
+                this.state = {
+                    tasks: [],
+                    todo:"",
+                    
+                };
+            }
+
+            render() {
+
+                
+
+                return (
+                    <div>
+                 <h1>Tasks List</h1>
+                 <p>You currently have {this.state.tasks.length} to complete</p>
+                 <ul>
+
+                    {this.state.tasks.map((task,i) =>
+                        <li key={i}>
+                            {task}
+                            <button onClick={() => this.deleteTask(i)}>
+                                Delete Task
+                            </button>
+                        </li>
+                     
+                    )}
+
+                </ul>
+
+                <div>
+                    <input onChange={this.updateTodo} value={this.state.todo} />
+                <button onClick={this.addTask}>Add Task</button>
+                </div>
+                
+                </div>
+                )
+            }
+
+            updateTodo = (event) => {
+                this.setState({
+                    todo: event.target.value
+                });
+            }
+
+            addTask = () => {
+                this.setState(state => ({
+                    tasks: [...state.tasks, state.todo],
+                    todo:"",
+                }))
+            }
+
+            deleteTask = (index) => {
+                    //const delItem = React.findDOMNode(this.ref)
+                    this.setState(state => {
+                        const tasks = [...state.tasks];
+                        tasks.splice(index, 1);
+                        return {
+                            tasks: tasks
+                        }
+                    })
+                };
+                            
+                    
+
+        }
+        ReactDOM.render(<App />, document.querySelector('#app'));
+
+    </script>
+   
+
+
+</body>
+</html>
